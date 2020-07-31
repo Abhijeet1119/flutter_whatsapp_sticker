@@ -1,0 +1,51 @@
+name: flutterwhatsappstickers
+description: A new Flutter application.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.2
+  flutter_whatsapp_stickers:
+  firebase_admob: ^0.5.5
+  url_launcher:
+  esys_flutter_share: ^1.0.2
+  flutter_svg: ^0.17.4
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: "^0.7.3"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo.png"
+
+
+
+flutter:
+
+
+  uses-material-design: true
+
+  assets:
+    - assets/icons/
+    - assets/images/
+    - sticker_packs/1/
+    - sticker_packs/2/
+    - sticker_packs/3/
+    - sticker_packs/4/
+    - sticker_packs/5/
+    - sticker_packs/6/
+    - sticker_packs/7/
+    - sticker_packs/sticker_packs.json
+
+
