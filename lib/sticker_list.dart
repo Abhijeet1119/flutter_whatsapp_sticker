@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:math';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_whatsapp_stickers/flutter_whatsapp_stickers.dart';
 import 'package:flutterwhatsappstickers/utils.dart';
+import 'package:flutterwhatsappstickers/Widgets/Admob.dart';
 import 'package:flutterwhatsappstickers/sticker_pack_info.dart';
 import 'constants.dart';
 
@@ -15,6 +18,38 @@ class _StickerListState extends State<StickerList> {
   final WhatsAppStickers _waStickers = WhatsAppStickers();
   List stickerList = new List();
   List installedStickers = new List();
+  InterstitialAd myInterstitial;
+
+
+  InterstitialAd buildInterstitialAd() {
+    return InterstitialAd(
+      adUnitId: InterstitialAd.testAdUnitId,
+      listener: (MobileAdEvent event) {
+        if (event == MobileAdEvent.failedToLoad) {
+          myInterstitial..load();
+        } else if (event == MobileAdEvent.closed) {
+          myInterstitial = buildInterstitialAd()..load();
+        }
+        print(event);
+      },
+    );
+  }
+  void showInterstitialAd() {
+    myInterstitial..show();
+  }
+
+  void showRandomInterstitialAd() {
+    Random r = new Random();
+    bool value = r.nextBool();
+
+    if (value == true) {
+      myInterstitial..show();
+    }
+  }
+
+
+
+
 
   void _loadStickers() async {
     String data =
@@ -58,7 +93,16 @@ class _StickerListState extends State<StickerList> {
   void initState() {
     super.initState();
     _loadStickers();
+    myInterstitial = buildInterstitialAd()..load();
   }
+
+  @override
+  void dispose() {
+    myInterstitial.dispose();
+
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -124,6 +168,7 @@ class _StickerListState extends State<StickerList> {
         color: Colors.teal,
         tooltip: 'Add Sticker to WhatsApp',
         onPressed: () async {
+          showInterstitialAd();
           _waStickers.addStickerPack(
             packageName: WhatsAppPackage.Consumer,
             stickerPackIdentifier: identifier,
